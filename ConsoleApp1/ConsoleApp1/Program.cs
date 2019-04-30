@@ -209,7 +209,25 @@ namespace ConsoleApp1
         {
             int[] A = Hamnhapmang();
             Xuatmang(A);
-            int i = demsongto(A);
+            int s = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                bool laNT = true;
+                if (A[i] == 1) { laNT = false; }
+                for(int j = 2; j <= Math.Sqrt(A[i]); j++)
+                {
+                    if (A[i] % j == 0)
+                    {
+                        laNT = false;
+                    }
+                }
+                if (laNT)
+                {
+                    s = s + A[i];
+                }
+            }
+            Console.WriteLine($"Ket qua la: {s}.");
+            /*int i = demsongto(A);
             if (i == 0)
             {
                 Console.WriteLine("Mang khong co so nguyen to");
