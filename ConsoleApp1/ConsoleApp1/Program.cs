@@ -165,18 +165,29 @@ namespace ConsoleApp1
         }
         static int Timsoduongnhonhat(int[] A)
         {
-            int min = timmax(A);
+            int minindex = -1;
             for (int i = 0; i < A.Length; i++)
             {
                 if (A[i] > 0)
                 {
-                    if (A[i] < min)
+                    minindex = i;
+                    break;
+                }
+            }
+            if (minindex >= 0)
+            {
+                for (int i = 0; i < A.Length; i++)
+                {
+                    if (A[i] > 0 && A[i] < A[minindex])
                     {
-                        min = A[i];
+
+                        minindex = i;
+
                     }
                 }
             }
-            return min;
+            
+            return minindex;
         }
         static int demsongto(int[] A)
         {
@@ -192,41 +203,147 @@ namespace ConsoleApp1
         }
         static int timsongtonhonhat(int []A)
         {
-            int min = timmax(A);
+            int minindex = -1;
             for (int i = 0; i < A.Length; i++)
             {
                 if (lasonguyento(A[i]))
                 {
-                    if (A[i] < min)
+                    minindex = i;
+                    break;
+                }
+            }
+            if (minindex >= 0)
+            {
+                for (int i = 0; i < A.Length; i++)
+                {
+                    if (lasonguyento(A[i]) && A[i] < A[minindex])
                     {
-                        min = A[i];
+
+                        minindex = i;
+
                     }
+                }
+            }
+
+            return minindex;
+        }
+        static int[,] NhapMaTran()
+        {
+            int[,] A;
+            int N, M;
+            Console.WriteLine("Nhap vao so luong dong: ");
+            N = int.Parse(Console.ReadLine());
+            Console.WriteLine("Nhap vao so luong cot: ");
+            M = int.Parse(Console.ReadLine());
+            A = new int[N, M];
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    Console.WriteLine($"Nhap vao phan tu A[{i},{j}]: ");
+                    A[i, j] = int.Parse(Console.ReadLine());
+                }
+            }
+            return A;
+        }
+        static void XuatMaTran(int[,] A)
+        {
+            Console.WriteLine("Ma tran A co gia tri: ");
+            for (int i = 0; i < A.GetLength(0); i++)
+            {
+                for (int j = 0; j < A.GetLength(1); j++)
+                {
+                    Console.Write($"A[{i},{j}]= {A[i, j]} ");
+
+                }
+                Console.WriteLine();
+            }
+        }
+        static double TinhTBCMT(int[,] A)
+        {
+            int tong = 0;
+            int soptl = 0;
+            for (int i = 0; i < A.GetLength(0); i++)
+            {
+                for (int j = 0; j < A.GetLength(1); j++)
+                {
+                    if (A[i, j] > 0)
+                    {
+                        soptl++;
+                        tong = tong + A[i, j];
+                    }
+                }
+            }
+            if (soptl == 0) { return 0; }
+            return (1.0 * tong / soptl);
+        }
+        static int TimPhanTuNhoNhatTrenCotK(int[,] A,int k)
+        {
+            int min = A[0, k];
+            for (int i = 1; i < A.GetLength(0); i++)
+            {
+                if (A[i, k] < min)
+                {
+                    min = A[i, k];
                 }
             }
             return min;
         }
-        static void Main(string[] args)
+        static int TimPhanTuLonNhatTrenhangK(int[,] A, int k)
         {
-            int[] A = Hamnhapmang();
-            Xuatmang(A);
-            int s = 0;
-            for (int i = 0; i < A.Length; i++)
+            int max = A[k, 0];
+            for (int i = 1; i < A.GetLength(1); i++)
             {
-                bool laNT = true;
-                if (A[i] == 1) { laNT = false; }
-                for(int j = 2; j <= Math.Sqrt(A[i]); j++)
+                if (A[k, i] > max)
                 {
-                    if (A[i] % j == 0)
-                    {
-                        laNT = false;
-                    }
-                }
-                if (laNT)
-                {
-                    s = s + A[i];
+                    max = A[k, i];
                 }
             }
-            Console.WriteLine($"Ket qua la: {s}.");
+            return max;
+        }
+        static bool KiemTraMTTangDan(int[,] A)
+        {
+            int prev = A[0, 0];
+            for (int i = 0; i < A.GetLength(0); i++)
+            {
+                for (int j = 0; j < A.GetLength(1); j++)
+                {
+                    if (A[i, j] < prev)
+                    {
+                        return false;
+                    }
+                    A[i, j] = prev;
+                }
+            }
+            return true;
+        }
+        static int DemsoPtK(int[,] A, int k)
+        {
+            int spt = 0;
+            for (int i = 0; i < A.GetLength(0); i++)
+            {
+                for (int j = 0; j < A.GetLength(1); j++)
+                {
+                    if (A[i, j] == k)
+                    {
+                        spt++;
+                    }
+                }
+            }
+            return spt;
+        }
+            static void Main(string[] args)
+        {
+            int[,] A = NhapMaTran();
+            XuatMaTran(A);
+            Console.WriteLine("Nhap vao hang k:");
+            Double kq = TimPhanTuLonNhatTrenhangK(A,int.Parse(Console.ReadLine())-1);
+            Console.WriteLine($"Ket qua la: {kq}");
+
+            /*int[] A = Hamnhapmang();
+            Xuatmang(A);
+            Double kq = Tinhtbcsnt(A);
+            Console.WriteLine($"Ket qua la: {kq:0.00}.");
             /*int i = demsongto(A);
             if (i == 0)
             {
