@@ -8,6 +8,15 @@ namespace ConsoleApp1
 {
     class Program
     {
+        struct DanhSach
+        {
+            public int ma;
+            public string ten;
+            public string nxb;
+            public int gia;
+            public int namxb;
+            public string loai;
+        }
         static int[] Hamnhapmang()
         {
             int[] A;
@@ -334,7 +343,16 @@ namespace ConsoleApp1
         }
             static void Main(string[] args)
         {
-            int[,] A = NhapMaTran();
+            DanhSach A;
+            A.ma = 1;
+            A.ten = "Sach 1";
+            A.nxb = "Kim Dong";
+            A.gia = 100000;
+            A.loai = "Quy";
+            A.namxb = 1900;
+            Console.WriteLine($"{A.loai} ,{A.ma} ,{A.namxb} ,{A.nxb}" );
+           
+            /*int[,] A = NhapMaTran();
             XuatMaTran(A);
             Console.WriteLine("Nhap vao hang k:");
             Double kq = TimPhanTuLonNhatTrenhangK(A,int.Parse(Console.ReadLine())-1);
